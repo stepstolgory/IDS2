@@ -363,12 +363,27 @@ display: none;
 library(tidyverse) </code></pre>
 <pre class="r"><code># Do not edit this code chunk!
 visitors &lt;- read_csv(&quot;data/UK-visitor-numbers.csv&quot;)</code></pre>
+<pre class="r"><code>visitors %&gt;% head(n=10)</code></pre>
+<pre><code>## # A tibble: 10 × 6
+##    attraction                             n_2021 n_2022 admission setting region
+##    &lt;chr&gt;                                   &lt;dbl&gt;  &lt;dbl&gt; &lt;chr&gt;     &lt;chr&gt;   &lt;chr&gt; 
+##  1 1066 Battle of Hastings, Abbey and Ba…  91690 108113 Members   O       South…
+##  2 Abbey House Museum                      21369  45118 Charged   I       Yorks…
+##  3 Abertarff House                            NA   7296 Free      I       Scotl…
+##  4 Alice Holt Forest                          NA 340973 Free      O       South…
+##  5 Alloa Tower                              4574   5965 Members   I       Scotl…
+##  6 Anglesey Abbey                         310940 345209 Members   M       East …
+##  7 Anne Hathaway&#39;s Cottage                 23199  42294 Charged   M       West …
+##  8 Arbeia South Sheilds Roman Fort            NA  19568 Free      M       North…
+##  9 Ashmolean Museum Oxford                212497 728006 Free      I       South…
+## 10 Aston Hall                              17789  37490 Members   M       West …</code></pre>
 </div>
 <div id="wrangling-data" class="section level1">
 <h1>Wrangling Data</h1>
 <div id="question-1" class="section level2">
 <h2>Question 1</h2>
-<p><em>How many tourist attractions are there in the data set?</em></p>
+<p><em>How many tourist attractions are there in the data set?
+348</em></p>
 <pre class="r"><code>visitors %&gt;% count()</code></pre>
 <pre><code>## # A tibble: 1 × 1
 ##       n
@@ -380,7 +395,22 @@ visitors &lt;- read_csv(&quot;data/UK-visitor-numbers.csv&quot;)</code></pre>
 the data set by <code>region</code>.</em></p>
 <pre class="r"><code># Delete the comment &#39;#&#39; symbol at the start of the next line and complete the code. 
 
-#visitors %&gt;% count(_____)</code></pre>
+visitors %&gt;% count(region)</code></pre>
+<pre><code>## # A tibble: 12 × 2
+##    region                       n
+##    &lt;chr&gt;                    &lt;int&gt;
+##  1 East Midlands                9
+##  2 East of England             26
+##  3 London                      39
+##  4 North East                  25
+##  5 North West                  21
+##  6 Northern Ireland             9
+##  7 Scotland                    97
+##  8 South East                  34
+##  9 South West                  30
+## 10 Wales                        2
+## 11 West Midlands               35
+## 12 Yorkshire and the Humber    21</code></pre>
 </div>
 <div id="exercise-b." class="section level3">
 <h3>Exercise b.</h3>
@@ -388,12 +418,26 @@ the data set by <code>region</code>.</em></p>
 <code>setting</code>.</em></p>
 <pre class="r"><code># Delete the comment &#39;#&#39; symbol at the start of the next line and complete the code.
 
-#visitors %&gt;% count(_____, _____)</code></pre>
+visitors %&gt;% count(admission, setting)</code></pre>
+<pre><code>## # A tibble: 9 × 3
+##   admission setting     n
+##   &lt;chr&gt;     &lt;chr&gt;   &lt;int&gt;
+## 1 Charged   I          21
+## 2 Charged   M          12
+## 3 Charged   O           5
+## 4 Free      I          77
+## 5 Free      M           8
+## 6 Free      O          43
+## 7 Members   I          23
+## 8 Members   M         106
+## 9 Members   O          53</code></pre>
 </div>
 </div>
 <div id="question-2" class="section level2">
 <h2>Question 2</h2>
-<p><em>What are the variable data types?</em></p>
+<p><em>What are the variable data types? attraction -&gt; character,
+n_2021 -&gt; numeric, n_2022 -&gt; numeric, admission -&gt; character,
+setting -&gt; character, region -&gt; character</em></p>
 <pre class="r"><code>class(visitors$n_2022)</code></pre>
 <pre><code>## [1] &quot;numeric&quot;</code></pre>
 <pre class="r"><code>visitors %&gt;% summarise_all(class)</code></pre>
@@ -404,8 +448,8 @@ the data set by <code>region</code>.</em></p>
 </div>
 <div id="question-3" class="section level2">
 <h2>Question 3</h2>
-<p><em>Which attraction had the most number of visitors in
-2022?</em></p>
+<p><em>Which attraction had the most number of visitors in 2022? Windsor
+Great Park</em></p>
 <pre class="r"><code>visitors %&gt;% arrange(desc(n_2022))</code></pre>
 <pre><code>## # A tibble: 348 × 6
 ##    attraction                             n_2021 n_2022 admission setting region
@@ -424,15 +468,28 @@ the data set by <code>region</code>.</em></p>
 <div id="exercise-c." class="section level3">
 <h3>Exercise c.</h3>
 <p><em>What are the top 10 most visited attractions in 2021?</em></p>
-<pre class="r"><code>#visitors %&gt;% 
-#  arrange(____(____)) %&gt;%
-#  head(n = ____)</code></pre>
+<pre class="r"><code>visitors %&gt;% 
+  arrange(desc(n_2021)) %&gt;%
+  head(n = 10)</code></pre>
+<pre><code>## # A tibble: 10 × 6
+##    attraction                             n_2021 n_2022 admission setting region
+##    &lt;chr&gt;                                   &lt;dbl&gt;  &lt;dbl&gt; &lt;chr&gt;     &lt;chr&gt;   &lt;chr&gt; 
+##  1 The Crown Estate, Windsor Great Park   5.40e6 5.64e6 Free      O       South…
+##  2 Royal Botanic Gardens Kew              1.96e6 1.96e6 Members   M       London
+##  3 Natural History Museum (South Kensing… 1.57e6 4.65e6 Free      I       London
+##  4 RHS Garden Wisley                      1.41e6 1.49e6 Members   O       South…
+##  5 The British Museum                     1.33e6 4.10e6 Free      I       London
+##  6 Tate Modern                            1.16e6 3.88e6 Free      I       London
+##  7 Somerset House                         9.85e5 2.35e6 Free      M       London
+##  8 Science Museum                         9.56e5 2.33e6 Free      I       London
+##  9 Jeskyns Community Woodland             8.79e5 4.47e5 Free      O       South…
+## 10 V&amp;A South Kensington                   8.58e5 2.37e6 Free      I       London</code></pre>
 </div>
 </div>
 <div id="question-4" class="section level2">
 <h2>Question 4</h2>
 <p><em>What is the admission charge for the
-<code>&quot;National Museum of Scotland&quot;</code>?</em></p>
+<code>&quot;National Museum of Scotland&quot;</code>? Free</em></p>
 <pre class="r"><code>visitors %&gt;% filter(attraction == &quot;National Museum of Scotland&quot;)</code></pre>
 <pre><code>## # A tibble: 1 × 6
 ##   attraction                  n_2021  n_2022 admission setting region  
@@ -441,15 +498,23 @@ the data set by <code>region</code>.</em></p>
 <div id="exercise-d." class="section level3">
 <h3>Exercise d.</h3>
 <p><em>Which attraction had exactly 565,772 visitors in 2022?</em></p>
-<pre class="r"><code>#visitors %&gt;% filter(___ == ____)</code></pre>
+<pre class="r"><code>visitors %&gt;% filter(n_2022 == 565772)</code></pre>
+<pre><code>## # A tibble: 1 × 6
+##   attraction                        n_2021 n_2022 admission setting region    
+##   &lt;chr&gt;                              &lt;dbl&gt;  &lt;dbl&gt; &lt;chr&gt;     &lt;chr&gt;   &lt;chr&gt;     
+## 1 Knowsley Safari and Knowsley Hall     NA 565772 Members   M       North West</code></pre>
 </div>
 <div id="exercise-e." class="section level3">
 <h3>Exercise e.</h3>
 <p><em>How many attraction had more than 1 million visitors in
 2022?</em></p>
-<pre class="r"><code>#visitors %&gt;% 
-#  filter(____) %&gt;%
-#  count()</code></pre>
+<pre class="r"><code>visitors %&gt;% 
+  filter(n_2022&gt;1000000) %&gt;%
+  count()</code></pre>
+<pre><code>## # A tibble: 1 × 1
+##       n
+##   &lt;int&gt;
+## 1    22</code></pre>
 </div>
 </div>
 <div id="question-5" class="section level2">
@@ -457,7 +522,7 @@ the data set by <code>region</code>.</em></p>
 <p><em>How many <code>&quot;O&quot;</code>utside attractions are there in the
 <code>&quot;Yorkshire and the Humber&quot;</code> region that gives
 <code>&quot;Members&quot;</code> free admission, which had more than 100,000
-visitors in 2022?</em></p>
+visitors in 2022? 3</em></p>
 <pre class="r"><code>visitors %&gt;%
   filter(
     setting == &quot;O&quot;,
@@ -474,20 +539,29 @@ visitors in 2022?</em></p>
 <h3>Exercise f.</h3>
 <p><em>How many attractions had between 50,000 and 100,000 visitors in
 2022?</em></p>
-<pre class="r"><code>#visitors %&gt;% 
-#  ____(
-#    ______,
-#    ______ ) %&gt;%
-#  count()</code></pre>
+<pre class="r"><code>visitors %&gt;% 
+  filter(
+    n_2022&gt;50000,
+    n_2022&lt;100000 ) %&gt;%
+  count()</code></pre>
+<pre><code>## # A tibble: 1 × 1
+##       n
+##   &lt;int&gt;
+## 1    50</code></pre>
 </div>
 <div id="exercise-g." class="section level3">
 <h3>Exercise g.</h3>
 <p><em>How many regions have more than 50 tourist attraction in the data
-set? (Hint: You will need to tabulate the data before
-filtering.)</em></p>
-<pre class="r"><code>#visitors %&gt;% 
-#  _____(region) %&gt;%
-#  filter(______)</code></pre>
+set? (Hint: You will need to tabulate the data before filtering.)
+1</em></p>
+<pre class="r"><code>visitors %&gt;% 
+  count(region) %&gt;%
+  filter(n&gt;50) %&gt;%
+  count()</code></pre>
+<pre><code>## # A tibble: 1 × 1
+##       n
+##   &lt;int&gt;
+## 1     1</code></pre>
 </div>
 </div>
 </div>
@@ -496,7 +570,7 @@ filtering.)</em></p>
 <div id="question-6" class="section level2">
 <h2>Question 6</h2>
 <p><em>What are the mean and median visitor numbers in 2022 across all
-attractions?</em></p>
+attractions? mean -&gt; 351942, median -&gt; 184640</em></p>
 <pre class="r"><code>visitors %&gt;% 
   summarise(
     mean_2022 = mean(n_2022),
@@ -510,18 +584,23 @@ attractions?</em></p>
 <h3>Exercise h.</h3>
 <p><em>Perform the same calculation for the 2021 admissions
 data.</em></p>
-<pre class="r"><code>#visitors %&gt;% 
-#  ______(
-#    __________,
-#    __________
-#  )</code></pre>
+<pre class="r"><code>visitors %&gt;% 
+  summarise(
+    mean_2021 = mean(n_2021, na.rm = TRUE),
+    med_2021 = median(n_2021, na.rm = TRUE)
+  )</code></pre>
+<pre><code>## # A tibble: 1 × 2
+##   mean_2021 med_2021
+##       &lt;dbl&gt;    &lt;dbl&gt;
+## 1   232431.   129829</code></pre>
 <p>All values in the output are <code>NA</code>!</p>
 </div>
 <div id="exercise-i." class="section level3">
 <h3>Exercise i.</h3>
 <p><em>What does <code>NA</code> stand for and why are you getting this
 as your answer to the previous question.</em></p>
-<p><strong>Write your answer here</strong></p>
+<p><strong>NA represents an empty cell, this is because not every
+attraction had visitors in 2021</strong></p>
 </div>
 <div id="exercise-j." class="section level3">
 <h3>Exercise j.</h3>
@@ -529,13 +608,14 @@ as your answer to the previous question.</em></p>
 <code>median()</code> commands to see what the input argument
 <code>na.rm</code> does. Edit your code from exercise h so that it
 computes the summary statistics where data is available.</em></p>
-<p><strong>Write your answer here</strong></p>
+<p><strong><code>na.rm</code> removes rows that contain an empty
+cell</strong></p>
 </div>
 </div>
 <div id="question-7" class="section level2">
 <h2>Question 7</h2>
 <p><em>Which setting (inside, outside or mixed) has the largest mean
-visitor numbers in 2022?</em></p>
+visitor numbers in 2022? Inside</em></p>
 <pre class="r"><code>visitors %&gt;% 
   group_by(setting) %&gt;%
   summarise(
@@ -553,14 +633,17 @@ visitor numbers in 2022?</em></p>
 <p><em>Observe in question 6 that the mean statistics across all
 settings are much larger than the corresponding median statistics.
 Discuss in your group what this suggests about the data.</em></p>
-<p><strong>Write your answer here</strong></p>
+<p><strong>This is because most of the data is towards the lower end,
+which causes the median to be lower, but some of the data is very high
+which skews the mean value to be higher than the median</strong></p>
 </div>
 </div>
 <div id="question-8" class="section level2">
 <h2>Question 8</h2>
 <p><em>What is the interquartile range (the width of the middle 50% of
 data set between the lower and upper quartiles) the for each of the four
-nations of the UK?</em></p>
+nations of the UK? England -&gt; 350362, Northern Ireland -&gt; 311046,
+Scotland -&gt; 127986, Wales -&gt; 103368</em></p>
 <pre class="r"><code>visitors_with_nations &lt;- visitors %&gt;%
   mutate(
     nation = case_when(
@@ -587,9 +670,18 @@ visitors_with_nations %&gt;%
 <h3>Exercise l.</h3>
 <p><em>How many tourist attractions are there in each of the 4 nations?
 From this, discuss in your group how reliable you think the
-inter-quartile estimates are.</em></p>
-<pre class="r"><code>#________ %&gt;%
-#  ______(_______)</code></pre>
+inter-quartile estimates are. For England and Scotland, the estimates
+are reliable. For Wales and Northern Island it is a bad estimate as
+there are very few data points</em></p>
+<pre class="r"><code>visitors_with_nations %&gt;%
+  count(nation)</code></pre>
+<pre><code>## # A tibble: 4 × 2
+##   nation               n
+##   &lt;chr&gt;            &lt;int&gt;
+## 1 England            240
+## 2 Northern Ireland     9
+## 3 Scotland            97
+## 4 Wales                2</code></pre>
 </div>
 </div>
 </div>
@@ -599,7 +691,21 @@ inter-quartile estimates are.</em></p>
 <h3>Exercise m.</h3>
 <p><em>Within each of the 4 nations, what is the proportion of tourist
 attractions that have free admission for all visitors?</em></p>
-<pre class="r"><code># Write your code here</code></pre>
+<pre class="r"><code>#count attractions for each nation
+#count free attractions for each nation
+#divide one by the other
+free_admission_per_nation &lt;- visitors_with_nations %&gt;% 
+  filter(admission == &quot;Free&quot;)%&gt;% count(nation)
+all_count &lt;- visitors_with_nations %&gt;% count(nation)
+ratio &lt;- left_join(free_admission_per_nation, all_count, by=c(&quot;nation&quot;))
+ratio$free_ratio &lt;- (ratio$n.x/ratio$n.y)
+ratio %&gt;% rename(free=n.x) %&gt;% rename(total=n.y)</code></pre>
+<pre><code>## # A tibble: 3 × 4
+##   nation            free total free_ratio
+##   &lt;chr&gt;            &lt;int&gt; &lt;int&gt;      &lt;dbl&gt;
+## 1 England             93   240      0.388
+## 2 Northern Ireland     1     9      0.111
+## 3 Scotland            34    97      0.351</code></pre>
 </div>
 <div id="exercise-n." class="section level3">
 <h3>Exercise n.</h3>
